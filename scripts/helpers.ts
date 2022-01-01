@@ -29,9 +29,10 @@ export interface Client {
 export function newClient(): Client {
     const client = <Client>{}
 
-    if (process.env.WALLET_MNEMONIC) {
+    if (process.env.WALLET_MNEMONIC) {        
+        // some issues with process.env.NODE
         client.terra = new LCDClient({
-            URL: String(process.env.NODE),
+            URL: "https://bombay-lcd.terra.dev",
             chainID: String(process.env.CHAIN_ID)
         })
         client.wallet = recover(client.terra, String(process.env.WALLET_MNEMONIC!))
