@@ -8,26 +8,58 @@ import {
   MsgInstantiateContract,
 } from "@terra-money/terra.js";
 import * as fs from "fs";
+import { executeContract, newClient, readNetworkConfig } from './helpers.js';
+import { configDefault } from './deploy_configs';
+
+// new admin
+const NEW_ADMIN = "terra1w25svpvjvgl5akzkgsuxwrhgsazxrr5gcltaks";
+const DEBUG = false;
 
 (async () => {
   try {
-    const mk = new MnemonicKey({
-      mnemonic: process.env.WALLET_MNEMONIC,
-    });
+    const client = newClient();    
+    const networkConfig = readNetworkConfig(client.terra.config.chainID);
 
-    console.log("chainId: \n", process.env.CHAIN_ID);
-    console.log("url: \n", process.env.NODE_URL);
+    /*
+    'rpc error: code = InvalidArgument desc = failed to execute message; message index: 0: 
+    Error parsing into type ibc_reflect_send::msg::ExecuteMsg: unknown variant `deposit`, 
+    expected one of `update_admin`, `send_msgs`, `check_remote_balance`, `send_funds`: 
+    execute wasm contract failed: invalid request'
 
-    const terra = new LCDClient({
-      chainID: String(process.env.CHAIN_ID),
-      URL: String(process.env.NODE_URL),
-    });
+    rpc error: code = InvalidArgument desc = failed to 
+    execute message; message index: 0: Error parsing into type ibc_reflect_send::msg::ExecuteMsg: 
+    missing field `admin`: execute wasm contract failed: invalid request
+    */
 
-    const wallet = terra.wallet(mk);
+    // test setting new admin
+    const res = await executeContract(
+      client.terra, 
+      client.wallet, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        update_admin: {
+          admin: NEW_ADMIN
+        },
+      }
+    )
+    DEBUG && console.log(res);
 
-    const acctNumber = await wallet.accountNumber()
-    console.log(acctNumber);
+    // test check_remote_balance
+    const res2 = await executeContract(
+      client.terra, 
+      client.wallet, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        check_remote_balance: {
+          channel_id: "channel-1234"
+        }
+      }
+    )
+    DEBUG && console.log(res2);
+
+    // get owner
     
+
   } catch (e) {
     console.log("Error:\n ", e);
   }
