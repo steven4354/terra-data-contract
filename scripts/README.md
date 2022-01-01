@@ -18,20 +18,12 @@
 * As a result, we will get a data file `<chain-id>.json` located in the root folder by default.
   ```json
   {
-    "astroport_lbp_token": {
-      "ID": 20116,
-      "Addr": "terra1tkq9t7uveh8w97w3gukst6x0eyls7xemu3lc7f"
-    },
-    "astroport_lbp_factory": {
-      "ID": 20117,
-      "Addr": "terra1yknkheg3daqs3ugfppcsprsl09shxgju2rajw3"
-    },
-    "astroport_lbp_pair": {
-      "ID": 20118,
-      "Addr": "terra10tundj5757wtjzvs3g4h48kcvvpw59s6jsyvet"
-    },
-    "astroport_lbp_router": {
-      "ID": 20119,
-      "Addr": "terra1a8gkkxfzxdhazyaxnyj8taknkmumknd7c3u3w4"
-    }
-  }```
+  "astroport_lbp_token": {
+    "ID": 30101,
+    "Addr": "terra1aj9stfkw6qea2nf9zzrdzchylq5ayjhz7f503r"
+  },
+  "wallet_scores": {
+    "ID": 30182,
+    "Addr": "terra1c02xnzgme3502tq8fs4er3q8enk6pzh8hdh7zd"
+  }
+}```
