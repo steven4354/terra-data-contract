@@ -1,18 +1,8 @@
 import 'dotenv/config'
-import {
-  LCDClient,
-  MsgStoreCode,
-  MnemonicKey,
-  isTxError,
-  MsgExecuteContract,
-  MsgInstantiateContract,
-} from "@terra-money/terra.js";
-import * as fs from "fs";
 import { executeContract, newClient, queryContract, readNetworkConfig } from './helpers.js';
-import { configDefault } from './deploy_configs';
 
-// new admin
-const NEW_ADMIN = "terra1w25svpvjvgl5akzkgsuxwrhgsazxrr5gcltaks";
+// a different address to test changing ownership
+const NEW_ADMIN = "terra1qg39df9w7wl5rd70spqdn3xvqj4cfe3t8vsldn";
 const DEBUG = false;
 
 (async () => {
@@ -31,49 +21,91 @@ const DEBUG = false;
     missing field `admin`: execute wasm contract failed: invalid request
     */
 
-    // test setting new admin
-    const res = await executeContract(
-      client.terra, 
-      client.wallet, 
-      networkConfig.ibc_reflect_send.Addr,
-      {
-        update_admin: {
-          admin: NEW_ADMIN
-        },
-      }
-    )
-    DEBUG && console.log(res);
-
-    // query accounts
-    const res2 = await await queryContract(
-      client.terra, 
-      networkConfig.ibc_reflect_send.Addr,
-      {
-        list_accounts: {}
-      }
-    )
-    console.log(res2);
-
-    // execute get owner
-    const res3 = await executeContract(
-      client.terra, 
-      client.wallet, 
-      networkConfig.ibc_reflect_send.Addr,
-      {
-        get_admin: {}
-      }
-    )
-    DEBUG && console.log(res3);
-
     // query get owner
-    const res4 = await queryContract(
+    const res2 = await queryContract(
       client.terra, 
       networkConfig.ibc_reflect_send.Addr,
       {
         admin: {}
       }
     )
-    console.log(res4);
+    console.log(res2);
+
+    // set scores
+    const res3 = await executeContract(
+      client.terra, 
+      client.wallet, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        create_pair: {
+          address: "address_2",
+          score: "20"
+        }
+      }
+    )
+    DEBUG && console.log(res3);
+
+    const res4 = await executeContract(
+      client.terra, 
+      client.wallet, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        create_pair: {
+          address: "address_3",
+          score: "20"
+        }
+      }
+    )
+    DEBUG && console.log(res4);
+
+    // query scores
+    const res5 = await queryContract(
+      client.terra, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        list_scores: {}
+      }
+    )
+    console.log(res5);
+
+    // after changing admin should not be able to set score (update DEBUG to true)s
+    const res6 = DEBUG && await executeContract(
+        client.terra,
+        client.wallet,
+        networkConfig.ibc_reflect_send.Addr,
+        {
+            update_admin: {
+                admin: NEW_ADMIN
+            },
+        }
+    )
+    DEBUG && console.log(res6);
+
+    // trying to set scores after admin change should fail (update DEBUG to true)
+    const res7 = DEBUG && await executeContract(
+      client.terra,
+      client.wallet,
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        create_pair: {
+          address: "address_3",
+          score: "20"
+        }
+      }
+    )
+    DEBUG && console.log(res7);
+
+    // querying a single score from a wallet address
+    const res8 = await queryContract(
+      client.terra,
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        score: {
+          address: "address_2"
+        }
+      }
+    )
+    console.log(res8);
 
   } catch (e) {
     console.log("Error:\n ", e);

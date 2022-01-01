@@ -1,8 +1,9 @@
-use cosmwasm_std::{Coin, CosmosMsg, Empty, Timestamp};
+use cosmwasm_std::{Addr, Coin, CosmosMsg, Empty, Timestamp};
+
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::state::AccountData;
+use crate::state::{AccountData, ScoreData};
 
 /// This needs no info. Owner of the contract is whoever signed the InstantiateMsg.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -16,7 +17,6 @@ pub enum ExecuteMsg {
     UpdateAdmin {
         admin: String,
     },
-    GetAdmin {},
     SendMsgs {
         channel_id: String,
         // Note: we don't handle custom messages on remote chains
@@ -36,6 +36,10 @@ pub enum ExecuteMsg {
         /// It should connect to the same chain as the reflect_channel_id does
         transfer_channel_id: String,
     },
+    CreatePair {
+        address: String,
+        score: String
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -45,6 +49,10 @@ pub enum QueryMsg {
     Admin {},
     // Shows all open accounts (incl. remote info)
     ListAccounts {},
+    // Get score for one wallet address
+    Score { address: String },
+    // Shows all scores
+    ListScores {},
     // Get account for one channel
     Account { channel_id: String },
 }
@@ -57,6 +65,27 @@ pub struct AdminResponse {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct ListAccountsResponse {
     pub accounts: Vec<AccountInfo>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct ListScoresResponse {
+    pub scores: Vec<ScoreInfo>,
+}
+
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct ScoreInfo {
+    pub wallet_addr: String,
+    pub score: String,
+}
+
+impl ScoreInfo {
+    pub fn convert(input: ScoreData) -> Self {
+        ScoreInfo {
+            wallet_addr: input.wallet_addr,
+            score: input.score,
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -97,6 +126,21 @@ impl From<AccountData> for AccountResponse {
             last_update_time: input.last_update_time,
             remote_addr: input.remote_addr,
             remote_balance: input.remote_balance,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct ScoreResponse {
+    pub wallet_addr: String,
+    pub score: String,
+}
+
+impl From<ScoreData> for ScoreResponse {
+    fn from(input: ScoreData) -> Self {
+        ScoreResponse {
+            wallet_addr: input.wallet_addr,
+            score: input.score,
         }
     }
 }
