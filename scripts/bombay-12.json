@@ -3,8 +3,8 @@
     "ID": 30101,
     "Addr": "terra1aj9stfkw6qea2nf9zzrdzchylq5ayjhz7f503r"
   },
-  "ibc_reflect_send": {
-    "ID": 30176,
-    "Addr": "terra1z3qjp3wemfcsnfcf7cctmyh7nx5krszw69wfgt"
+  "wallet_scores": {
+    "ID": 30182,
+    "Addr": "terra1c02xnzgme3502tq8fs4er3q8enk6pzh8hdh7zd"
   }
 }

@@ -1,8 +1,8 @@
 [package]
-name = "ibc-reflect-send"
+name = "wallet-scores"
 version = "0.0.0"
-authors = ["Ethan Frey <ethanfrey@users.noreply.github.com>"]
-edition = "2018"
+authors = ["Steven Li <steven4354@users.noreply.github.com>"]
+edition = "2021"
 publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
