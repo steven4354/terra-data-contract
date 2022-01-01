@@ -66,6 +66,24 @@ async function setupToken(cl: Client, cfg: Config) {
     }
 }
 
+async function setupIbcReflectSend(cl: Client, cfg: Config) {
+    const networkConfig = readNetworkConfig(cl.terra.config.chainID);
+
+    if (!networkConfig.ibc_reflect_send.Addr) {
+        networkConfig.ibc_reflect_send.Addr = await instantiateContract(
+            cl.terra,
+            cl.wallet,
+            networkConfig.ibc_reflect_send.ID,
+            cfg.ibcReflectSendConfig.configInitMsg
+        );
+
+        writeNetworkConfig(networkConfig, cl.terra.config.chainID)
+        console.log('setup ibc reflect send ---> FINISH.\nAddr: ', networkConfig.ibc_reflect_send.Addr)
+    } else {
+        console.log('Ibc Reflect Send is already exists.\nAddr: ', networkConfig.ibc_reflect_send.Addr);
+    }
+}
+
 async function setupAstroportPair(cl: Client, cfg: Config) {
     const networkConfig = readNetworkConfig(cl.terra.config.chainID);
 
@@ -159,5 +177,6 @@ async function main() {
     // await setupAstroportRouter(client, config);
     // await setupAstroportPair(client, config);
     await setupToken(client, config);
+    await setupIbcReflectSend(client, config)
 }
 main().catch(console.log)

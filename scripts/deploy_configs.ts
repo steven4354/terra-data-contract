@@ -23,13 +23,8 @@ export const configDefault: Config = {
             }
         }
     },
-    cw1WhitelistConfig: {
-        configInitMsg: {
-            admins: [
-                process.env.ADMIN_ADDR!,
-            ],
-            mutable: false,
-        }
+    ibcReflectSendConfig: {
+        configInitMsg: {}
     },
     astroportRouterConfig: {
         configInitMsg: {
