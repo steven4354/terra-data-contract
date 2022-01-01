@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "npm run build-app",
-    "build-app": "bash build_app.sh"
+    "build-app": "bash build_app.sh",
+    "test": "npm run test-app",
+    "test-app": "bash test_app.sh"
   },
   "dependencies": {
     "@terra-money/terra.js": "^2.0.16",
