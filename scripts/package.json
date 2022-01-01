@@ -1,13 +1,15 @@
 {
   "name": "scripts",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "npm run build-app",
-    "build-app": "bash build_app.sh"
+    "build-app": "bash build_app.sh",
+    "test": "npm run test-app",
+    "test-app": "bash test_app.sh"
   },
-  "author": "",
   "dependencies": {
     "@terra-money/terra.js": "^2.0.16",
     "bignumber.js": "^9.0.1",
@@ -17,10 +19,10 @@
     "ts-custom-error": "^3.2.0"
   },
   "devDependencies": {
+    "@types/node": "^17.0.5",
     "check-dependencies": "^1.1.0",
     "eslint": "^7.24.0",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
-  },
-  "license": "ISC"
+  }
 }
