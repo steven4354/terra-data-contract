@@ -69,18 +69,18 @@ async function setupToken(cl: Client, cfg: Config) {
 async function setupIbcReflectSend(cl: Client, cfg: Config) {
     const networkConfig = readNetworkConfig(cl.terra.config.chainID);
 
-    if (!networkConfig.ibc_reflect_send.Addr) {
-        networkConfig.ibc_reflect_send.Addr = await instantiateContract(
+    if (!networkConfig.wallet_scores.Addr) {
+        networkConfig.wallet_scores.Addr = await instantiateContract(
             cl.terra,
             cl.wallet,
-            networkConfig.ibc_reflect_send.ID,
+            networkConfig.wallet_scores.ID,
             cfg.ibcReflectSendConfig.configInitMsg
         );
 
         writeNetworkConfig(networkConfig, cl.terra.config.chainID)
-        console.log('setup ibc reflect send ---> FINISH.\nAddr: ', networkConfig.ibc_reflect_send.Addr)
+        console.log('setup ibc reflect send ---> FINISH.\nAddr: ', networkConfig.wallet_scores.Addr)
     } else {
-        console.log('Ibc Reflect Send is already exists.\nAddr: ', networkConfig.ibc_reflect_send.Addr);
+        console.log('Ibc Reflect Send is already exists.\nAddr: ', networkConfig.wallet_scores.Addr);
     }
 }
 
