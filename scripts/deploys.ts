@@ -66,6 +66,24 @@ async function setupToken(cl: Client, cfg: Config) {
     }
 }
 
+async function setupCw1Whitelist(cl: Client, cfg: Config) {
+    const networkConfig = readNetworkConfig(cl.terra.config.chainID);
+
+    if (!networkConfig.cw1_whitelist.Addr) {
+        networkConfig.cw1_whitelist.Addr = await instantiateContract(
+            cl.terra,
+            cl.wallet,
+            networkConfig.cw1_whitelist.ID,
+            cfg.cw1WhitelistConfig.configInitMsg
+        );
+
+        writeNetworkConfig(networkConfig, cl.terra.config.chainID)
+        console.log('setup cw1 whitelist ---> FINISH. Addr: ', networkConfig.astroport_lbp_token.Addr)
+    } else {
+        console.log('Token is already exists.\nAddr: ', networkConfig.astroport_lbp_token.Addr);
+    }
+}
+
 async function setupAstroportPair(cl: Client, cfg: Config) {
     const networkConfig = readNetworkConfig(cl.terra.config.chainID);
 
@@ -154,10 +172,11 @@ async function main() {
     const client = newClient();
     let config: Config = configDefault;
 
-    // await uploadContracts(client);
+    await uploadContracts(client);
     // await setupAstroportFactory(client, config);
     // await setupAstroportRouter(client, config);
     // await setupAstroportPair(client, config);
+    await setupCw1Whitelist(client, config);
     await setupToken(client, config);
 }
 main().catch(console.log)

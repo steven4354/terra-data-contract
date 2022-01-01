@@ -2,8 +2,6 @@
 
 simple terra/cosm wasm contract to set/retrieve data
 
-https://github.com/InterWasm/cw-template
+https://github.com/steven4354/astroport-lbport
 
-https://github.com/astroport-fi/astroport-lbport/blob/master/contracts/token/src/contract.rs
-
-https://github.com/terra-money/cosmwasm-contracts
+https://github.com/steven4354/cw-plus

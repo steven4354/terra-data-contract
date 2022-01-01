@@ -59,8 +59,18 @@ interface TokenConfig {
     }
 }
 
+interface Cw1WhitelistConfig {
+    configInitMsg: {
+        admins: [
+            string
+        ],
+        mutable: boolean
+    }
+}
+
 interface Config {
     tokenConfig: TokenConfig,
+    cw1WhitelistConfig: Cw1WhitelistConfig,
     astroportFactoryConfig: AstroportFactoryConfig,
     astroportRouterConfig: AstroportRouterConfig,
     astroportPairConfig: AstroportPairConfig,
