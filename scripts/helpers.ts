@@ -32,7 +32,7 @@ export function newClient(): Client {
     if (process.env.WALLET_MNEMONIC) {        
         // some issues with process.env.NODE
         client.terra = new LCDClient({
-            URL: "https://bombay-lcd.terra.dev",
+            URL: String(process.env.NODE_URL),
             chainID: String(process.env.CHAIN_ID)
         })
         client.wallet = recover(client.terra, String(process.env.WALLET_MNEMONIC!))
