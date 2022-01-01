@@ -16,6 +16,7 @@ pub enum ExecuteMsg {
     UpdateAdmin {
         admin: String,
     },
+    GetAdmin {},
     SendMsgs {
         channel_id: String,
         // Note: we don't handle custom messages on remote chains

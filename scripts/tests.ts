@@ -8,7 +8,7 @@ import {
   MsgInstantiateContract,
 } from "@terra-money/terra.js";
 import * as fs from "fs";
-import { executeContract, newClient, readNetworkConfig } from './helpers.js';
+import { executeContract, newClient, queryContract, readNetworkConfig } from './helpers.js';
 import { configDefault } from './deploy_configs';
 
 // new admin
@@ -44,20 +44,36 @@ const DEBUG = false;
     )
     DEBUG && console.log(res);
 
-    // test check_remote_balance
-    const res2 = await executeContract(
+    // query accounts
+    const res2 = await await queryContract(
+      client.terra, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        list_accounts: {}
+      }
+    )
+    console.log(res2);
+
+    // execute get owner
+    const res3 = await executeContract(
       client.terra, 
       client.wallet, 
       networkConfig.ibc_reflect_send.Addr,
       {
-        check_remote_balance: {
-          channel_id: "channel-1234"
-        }
+        get_admin: {}
       }
     )
-    DEBUG && console.log(res2);
+    DEBUG && console.log(res3);
 
-    // get owner
+    // query get owner
+    const res4 = await queryContract(
+      client.terra, 
+      networkConfig.ibc_reflect_send.Addr,
+      {
+        admin: {}
+      }
+    )
+    console.log(res4);
 
   } catch (e) {
     console.log("Error:\n ", e);

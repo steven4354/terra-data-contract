@@ -29,6 +29,7 @@ pub fn instantiate(
 pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> StdResult<Response> {
     match msg {
         ExecuteMsg::UpdateAdmin { admin } => handle_update_admin(deps, info, admin),
+        ExecuteMsg::GetAdmin {} => handle_get_admin(deps),
         ExecuteMsg::SendMsgs { channel_id, msgs } => {
             handle_send_msgs(deps, env, info, channel_id, msgs)
         }
@@ -58,6 +59,31 @@ pub fn handle_update_admin(
     Ok(Response::new()
         .add_attribute("action", "handle_update_admin")
         .add_attribute("new_admin", cfg.admin))
+}
+
+pub fn handle_get_admin(
+    deps: DepsMut,
+) -> StdResult<Response> {
+    let cfg = config(deps.storage).load()?;
+    Ok(Response::new()
+        .add_attribute("current_admin", cfg.admin))
+}
+
+pub fn handle_store_address_score(
+    deps: DepsMut,
+    info: MessageInfo,
+    new_admin: String,
+) -> StdResult<Response> {
+    // auth check
+    let mut cfg = config(deps.storage).load()?;
+    if info.sender != cfg.admin {
+        return Err(StdError::generic_err("Only admin may set address score"));
+    }
+    cfg.admin = deps.api.addr_validate(&new_admin)?;
+    config(deps.storage).save(&cfg)?;
+
+    Ok(Response::new()
+        .add_attribute("action", "handle_store_address_score"))
 }
 
 pub fn handle_send_msgs(
