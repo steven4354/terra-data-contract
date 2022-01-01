@@ -2,6 +2,10 @@
 
 simple terra/cosm wasm contract to set/retrieve data using Buckets & allowing only admin access to certain functionality (setting/changing data)
 
+contract is deployed to bombay-12 here: https://finder.terra.money/testnet/address/terra1nk2egwl93j4f022flleyvw7xkysz6kqxh9yntf
+
+demo of contract: https://youtu.be/YzAVqHMdb-Y
+
 ## getting started
 
 each contract can be individually compiled within their folders in `/contracts` details are in the README.mds in those folders
