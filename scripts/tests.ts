@@ -58,7 +58,6 @@ const DEBUG = false;
     DEBUG && console.log(res2);
 
     // get owner
-    
 
   } catch (e) {
     console.log("Error:\n ", e);

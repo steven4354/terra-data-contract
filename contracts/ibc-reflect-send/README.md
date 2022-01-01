@@ -20,7 +20,7 @@ Once you are happy with the content, you can compile it to wasm via:
 
 ```
 RUSTFLAGS='-C link-arg=-s' cargo wasm
-cp target/wasm32-unknown-unknown/release/ibc_reflect_send.wasm .
+cp ../../target/wasm32-unknown-unknown/release/ibc_reflect_send.wasm .
 ls -l ibc_reflect_send.wasm
 sha256sum ibc_reflect_send.wasm
 ```
