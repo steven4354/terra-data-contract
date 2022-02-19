@@ -2,17 +2,19 @@
 
 ## Bootstrap verifier
 * This demo uses `package.json` to bootstrap all dependencies.
-  ```shell
+  
+```shell
   $ cp sample.local.env .env
   $ npm install
   $ npm start
-  ```
+```
 
 ### Overview a scripts
 * This script deploys all contracts to testnet
-  ```shell
+  
+```shell
   npm run build-app
-  ```
+```
 
 ### Output Result
 * As a result, we will get a data file `<chain-id>.json` located in the root folder by default.
