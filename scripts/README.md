@@ -9,14 +9,15 @@
   ```
 
 ### Overview a scripts
-* This script deploys all contracts to exists a TerraStation environment. 
+* This script deploys all contracts to testnet
   ```shell
   npm run build-app
   ```
 
 ### Output Result
 * As a result, we will get a data file `<chain-id>.json` located in the root folder by default.
-  ```json
+  
+```json
   {
   "astroport_lbp_token": {
     "ID": 30101,
